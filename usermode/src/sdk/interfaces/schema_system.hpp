@@ -18,8 +18,8 @@ public:
 	{
 		return
 		{
-			m_memory->read_t<uint16_t>(reinterpret_cast<uintptr_t>(this) + 0x1c),
-			m_memory->read_t<c_schema_class_field_data*>(reinterpret_cast<uintptr_t>(this) + 0x28)
+			m_memory->read_t<uint16_t>(reinterpret_cast<uintptr_t>(this) + 0x24),
+			m_memory->read_t<c_schema_class_field_data*>(reinterpret_cast<uintptr_t>(this) + 0x30)
 		};
 	}
 };

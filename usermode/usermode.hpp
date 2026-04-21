@@ -13,10 +13,9 @@
 #include <winternl.h>
 
 /* ext/includes */
-#include "ext/nlohmann/json.hpp"
-#include "ext/easywsclient/easywsclient.hpp"
-#include "ext/fnv1a/fnv1a.hpp"
-#include "ext/curl/include/curl.h"
+#include <nlohmann/json.hpp>
+#include <ixwebsocket/IXNetSystem.h>
+#include <ixwebsocket/IXWebSocket.h>
 
 /* root */
 #include "common.hpp"
@@ -24,9 +23,9 @@
 /* utils */
 #include "utils/config.hpp"
 #include "utils/utils.hpp"
-#include "utils/exception.hpp"
 #include "utils/address.hpp"
 #include "utils/memory.hpp"
+#include "utils/fnv1a.hpp"
 
 /* core */
 #include "core/interfaces.hpp"

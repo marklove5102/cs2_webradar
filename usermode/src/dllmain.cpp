@@ -2,9 +2,6 @@
 
 bool main()
 {
-    if (!utils::is_updated())
-        return {};
-
     config_data_t config_data = {};
     if (!cfg::setup(config_data))
     {
@@ -12,13 +9,6 @@ bool main()
         return {};
     }
     LOG_INFO("config system initialization completed");
-
-    if (!exc::setup())
-    {
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-        return {};
-    }
-    LOG_INFO("exception handler initialization completed");
 
     if (!m_memory->setup())
     {
@@ -41,13 +31,7 @@ bool main()
     }
     LOG_INFO("schema initialization completed");
 
-    WSADATA wsa_data = {};
-    const auto wsa_startup = WSAStartup(MAKEWORD(2, 2), &wsa_data);
-    if (wsa_startup != 0)
-    {
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-        return {};
-    }
+    ix::initNetSystem();
     LOG_INFO("winsock initialization completed");
 
     const auto ipv4_address = utils::get_ipv4_address(config_data);
@@ -55,31 +39,49 @@ bool main()
         LOG_WARNING("failed to automatically get your ipv4 address!\n                 we will use '%s' from 'config.json'. if the local ip is wrong, please set it", config_data.m_local_ip);
 
     const auto formatted_address = std::format("ws://{}:22006/cs2_webradar", ipv4_address);
-    static auto web_socket = easywsclient::WebSocket::from_url(formatted_address);
-    if (!web_socket)
+
+    static ix::WebSocket web_socket;
+    static bool connected = false;
+    static bool failed = false;
+
+    web_socket.setUrl(formatted_address);
+    web_socket.setOnMessageCallback([&](const ix::WebSocketMessagePtr& msg)
     {
-        LOG_ERROR("failed to connect to the web socket ('%s')", formatted_address.c_str());
+        if (msg->type == ix::WebSocketMessageType::Open)
+        {
+            connected = true;
+            LOG_INFO("connected to the web socket ('%s')", formatted_address.c_str());
+        }
+        else if (msg->type == ix::WebSocketMessageType::Error)
+        {
+            failed = true;
+            LOG_ERROR("failed to connect to the web socket ('%s')", formatted_address.c_str());
+        }
+    });
+    web_socket.start();
+
+    while (!connected && !failed)
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+    if (!connected)
         return {};
-    }
-    LOG_INFO("connected to the web socket ('%s')", formatted_address.data());
 
     auto start = std::chrono::system_clock::now();
 
     for (;;)
     {
         const auto now = std::chrono::system_clock::now();
-        const auto duration = now - start;
-        if (duration >= std::chrono::milliseconds(100))
+
+        if (now - start >= std::chrono::milliseconds(100))
         {
             start = now;
 
             sdk::update();
             f::run();
 
-            web_socket->send(f::m_data.dump());
+            web_socket.send(f::m_data.dump());
         }
 
-        web_socket->poll();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 

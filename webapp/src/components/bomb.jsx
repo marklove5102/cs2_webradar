@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { getRadarPosition, teamEnum } from "../utilities/utilities";
 
-const Bomb = ({ bombData, mapData, radarImage, localTeam, averageLatency, settings }) => {
+const Bomb = ({ bombData, mapData, radarImage, localTeam, settings }) => {
   const radarPosition = getRadarPosition(mapData, bombData);
 
   const bombRef = useRef();
@@ -27,7 +27,6 @@ const Bomb = ({ bombData, mapData, radarImage, localTeam, averageLatency, settin
         width: `${scaledSize}vw`,
         height: `${scaledSize}vw`,
         transform: `translate(${radarImageTranslation.x}px, ${radarImageTranslation.y}px)`,
-        transition: `transform ${averageLatency}ms linear`,
         backgroundColor: `${
           (bombData.m_is_defused && `#50904c`) ||
           (localTeam == teamEnum.counterTerrorist && `#6492b4`) ||

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import PlayerCard from "./components/PlayerCard";
 import Radar from "./components/Radar";
-import { getLatency, Latency } from "./components/latency";
+import SettingsButton from "./components/settings";
 import MaskedIcon from "./components/maskedicon";
 
 const CONNECTION_TIMEOUT = 5000;
@@ -20,9 +20,6 @@ const EFFECTIVE_IP = USE_LOCALHOST ? "localhost" : PUBLIC_IP.match(/[a-zA-Z]/) ?
 const DEFAULT_SETTINGS = {
   dotSize: 1,
   bombSize: 0.5,
-  showAllNames: false,
-  showEnemyNames: true,
-  showViewCones: false,
 };
 
 const loadSettings = () => {
@@ -31,7 +28,6 @@ const loadSettings = () => {
 };
 
 const App = () => {
-  const [averageLatency, setAverageLatency] = useState(0);
   const [playerArray, setPlayerArray] = useState([]);
   const [mapData, setMapData] = useState();
   const [localTeam, setLocalTeam] = useState();
@@ -97,8 +93,6 @@ const App = () => {
       };
 
       webSocket.onmessage = async (event) => {
-        setAverageLatency(getLatency());
-
         const parsedData = JSON.parse(await event.data.text());
         setPlayerArray(parsedData.m_players);
         setLocalTeam(parsedData.m_local_team);
@@ -140,6 +134,10 @@ const App = () => {
         </section>
       )}
       <div className={`w-full h-full flex flex-col justify-center overflow-hidden relative`}>
+        <div className={`absolute right-2.5 top-2.5 z-50`}>
+          <SettingsButton settings={settings} onSettingsChange={setSettings} />
+        </div>
+
         {bombData && bombData.m_blow_time > 0 && !bombData.m_is_defused && (
           <div className={`absolute left-1/2 top-2 flex-col items-center gap-1 z-50`}>
             <div className={`flex justify-center items-center gap-1`}>
@@ -164,12 +162,6 @@ const App = () => {
         )}
 
         <div className={`flex items-center justify-evenly`}>
-          <Latency
-            value={averageLatency}
-            settings={settings}
-            setSettings={setSettings}
-          />
-
           <ul id="terrorist" className="lg:flex hidden flex-col gap-7 m-0 p-0">
             {playerArray
               .filter((player) => player.m_team == 2)
@@ -188,7 +180,6 @@ const App = () => {
               radarImage={`./data/${mapData.name}/radar.png`}
               mapData={mapData}
               localTeam={localTeam}
-              averageLatency={averageLatency}
               bombData={bombData}
               settings={settings}
             />

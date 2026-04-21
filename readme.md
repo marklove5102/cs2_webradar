@@ -23,8 +23,8 @@ Undetected Counter-Strike 2 browser-based radar cheat
 > [!TIP]
 > For easier sharing, consider **[hurracan](https://hurracan.com)** which handles this automatically.
 - After you built `usermode` project, open `config.json` and change `m_use_localhost` to `false`
-- In `react` project, `App.jsx` line 10, change `const USE_LOCALHOST = 1;` to `const USE_LOCALHOST = 0;`
-- In `react` project, `App.jsx` line 12, change `const PUBLIC_IP = "your ip";` with your IP Address
+- In `webapp` project, `App.jsx` line 10, change `const USE_LOCALHOST = 1;` to `const USE_LOCALHOST = 0;`
+- In `webapp` project, `App.jsx` line 12, change `const PUBLIC_IP = "your ip";` with your IP Address
 - In `cmd`, type `ipconfig`, find `Default Gateway` and navigate to it in your browser
 - In your router configuration, find `Port Forwarding` tab and forward port `22006/tcp` and `5173/tcp`
 - Now your friends can see the radar by navigating to `your public ip:5173`

@@ -7,7 +7,6 @@ const Radar = ({
   radarImage,
   mapData,
   localTeam,
-  averageLatency,
   bombData,
   settings
 }) => {
@@ -24,7 +23,6 @@ const Radar = ({
           mapData={mapData}
           radarImage={radarImageRef.current}
           localTeam={localTeam}
-          averageLatency={averageLatency}
           settings={settings}
         />
       ))}
@@ -35,7 +33,6 @@ const Radar = ({
           mapData={mapData}
           radarImage={radarImageRef.current}
           localTeam={localTeam}
-          averageLatency={averageLatency}
           settings={settings}
         />
       )}
