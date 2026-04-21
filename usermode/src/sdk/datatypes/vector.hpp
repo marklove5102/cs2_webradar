@@ -11,16 +11,6 @@ struct f_vector
 	{
 	}
 
-	inline f_vector(decltype(m_x) value)
-		: m_x(value), m_y(value), m_z(value)
-	{
-	}
-
-	inline f_vector(decltype(m_x) x, decltype(m_y) y, decltype(m_z) z)
-		: m_x(x), m_y(y), m_z(z)
-	{
-	}
-
 	bool is_zero() const
 	{
 		return (m_x == 0.f && m_y == 0.f && m_z == 0.f);

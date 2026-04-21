@@ -1,8 +1,5 @@
 #pragma once
 
-/* current build of cs2_webradar */
-#define CS2_WEBRADAR_VERSION "v1.2.9"
-
 /* game modules */
 #define CLIENT_DLL "client.dll"
 #define ENGINE2_DLL "engine2.dll"
@@ -25,5 +22,12 @@
     { \
         const auto filename = std::filesystem::path(__FILE__).filename().string(); \
         printf(" [error] [%s:%d] " str "\n", filename.c_str(), __LINE__, __VA_ARGS__); \
-        std::this_thread::sleep_for(std::chrono::seconds(5)); \
     }
+
+#define INIT_STEP(name, expr) \
+    if (!(expr)) \
+    { \
+        std::this_thread::sleep_for(std::chrono::seconds(5)); \
+        return {}; \
+    } \
+    LOG_INFO(name " initialization completed")

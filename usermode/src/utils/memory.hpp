@@ -1,23 +1,5 @@
 #pragma once
 
-#define NT_SUCCESS(status) (static_cast<long>(status) >= 0)
-
-struct __system_handle_t
-{
-	unsigned long m_process_id;
-	uint8_t m_object_type_number;
-	uint8_t m_flags;
-	uint16_t m_handle;
-	void* m_object;
-	ACCESS_MASK m_granted_access;
-};
-
-struct system_handle_info_t
-{
-	unsigned long m_handle_count;
-	__system_handle_t m_handles[1];
-};
-
 class c_memory
 {
 public:
@@ -71,7 +53,6 @@ public:
 	}
 
 private:
-	bool m_initialized = false;
 	void* m_handle = nullptr;
 	uint32_t m_id = 0;
 

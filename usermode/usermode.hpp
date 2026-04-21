@@ -2,15 +2,13 @@
 
 #include <windows.h>
 #include <tlhelp32.h>
-#include <psapi.h>
-#include <iostream>
 #include <cstdint>
 #include <chrono>
 #include <fstream>
 #include <set>
-#include <regex>
 #include <thread>
-#include <winternl.h>
+#include <mutex>
+#include <condition_variable>
 
 /* ext/includes */
 #include <nlohmann/json.hpp>
@@ -22,7 +20,6 @@
 
 /* utils */
 #include "utils/config.hpp"
-#include "utils/utils.hpp"
 #include "utils/address.hpp"
 #include "utils/memory.hpp"
 #include "utils/fnv1a.hpp"

@@ -47,7 +47,6 @@ class c_entity_identity
 public:
 	SCHEMA_ADD_OFFSET(uintptr_t, m_pClassInfo, 0x08);
 	SCHEMA_ADD_OFFSET(uint32_t, m_Idx, 0x10);
-	SCHEMA_ADD_FIELD(const char*, m_designerName, "CEntityIdentity->m_designerName");
 	SCHEMA_ADD_FIELD(uint32_t, m_flags, "CEntityIdentity->m_flags");
 
 	bool is_valid()
@@ -107,7 +106,6 @@ class c_player_item_services
 public:
 	SCHEMA_ADD_FIELD(bool, m_bHasDefuser, "CCSPlayer_ItemServices->m_bHasDefuser");
 	SCHEMA_ADD_FIELD(bool, m_bHasHelmet, "CCSPlayer_ItemServices->m_bHasHelmet");
-	SCHEMA_ADD_FIELD(bool, m_bHasHeavyArmor, "CCSPlayer_ItemServices->m_bHasHeavyArmor");
 };
 
 class c_base_player_pawn : public c_base_entity

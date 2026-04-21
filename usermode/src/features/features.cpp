@@ -2,6 +2,9 @@
 
 void f::run()
 {
+	if (!sdk::m_local_controller)
+		return;
+
 	const auto local_team = sdk::m_local_controller->m_iTeamNum();
 	if (local_team == e_team::none || local_team == e_team::spec)
 		return;
@@ -24,6 +27,7 @@ void f::get_map()
 
 		LOG_WARNING("failed to get map name! updating m_global_vars");
 		i::m_global_vars = m_memory->read_t<c_global_vars*>(m_memory->find_pattern(CLIENT_DLL, GET_GLOBAL_VARS)->rip().as<c_global_vars*>());
+		return;
 	}
 
 	m_data["m_map"] = map_name;

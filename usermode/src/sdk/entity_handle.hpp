@@ -3,7 +3,6 @@
 #define INVALID_EHANDLE_IDX 0xffffffff
 #define ENT_ENTRY_MASK 0x7fff
 #define NUM_SERIAL_NUM_SHIFT_BITS 15
-#define ENT_MAX_NETWORKED_ENTRY 16384
 
 class c_base_handle
 {
@@ -21,29 +20,9 @@ public:
 		m_idx = entry | (serial << NUM_SERIAL_NUM_SHIFT_BITS);
 	}
 
-	bool operator!=(const c_base_handle& other) const noexcept
-	{
-		return m_idx != other.m_idx;
-	}
-
-	bool operator==(const c_base_handle& other) const noexcept
-	{
-		return m_idx == other.m_idx;
-	}
-
-	bool operator<(const c_base_handle& other) const noexcept
-	{
-		return m_idx < other.m_idx;
-	}
-
 	bool is_valid() const noexcept
 	{
 		return m_idx != INVALID_EHANDLE_IDX;
-	}
-
-	uint32_t get_idx() const noexcept
-	{
-		return m_idx;
 	}
 
 	int32_t get_entry_idx() const noexcept

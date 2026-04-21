@@ -9,9 +9,7 @@ bool cfg::setup(config_data_t& config_data)
 
 		std::ofstream example_config("config.json");
 		example_config << std::format("{}", R"({
-    "m_use_localhost": true,
-    "m_local_ip": "192.168.x.x",
-    "m_public_ip": "x.x.x.x"
+    "m_ip": "localhost"
 })");
 
 		return {};
